@@ -39,12 +39,11 @@ $reviews = $connection->query($sql_review)
     <div class="container">
 
         <?php
-$counter = 0;
+
  if($reviews->num_rows>0) {
    echo  "<div class='row'>";
      while($rows = $reviews->fetch_assoc()) {
-       $counter++;
-     	echo "<div clas='col'><h6 class='header'> Review Number : " .$counter." </h6><div class='card-panel grey lighten-4'> 
+     	echo "<div class='col'><div class='card-panel grey lighten-4'> 
      	<h4><a href='reviewpage.php?reviewid=".$rows["review_id"]."'>".$rows["review_year"]."</a></h4><br> Review Id: ".$rows["review_id"]."<br> Completion: ".$rows["completed"]." <br> <br></div></div>";
      }
  echo "</div>";
@@ -54,17 +53,26 @@ $counter = 0;
 ?>
 
 
-            <?php 
+<?php 
 if(isset($_SESSION['mode'])) { ?>
             <hr>
             <h5>Summary of all performace reviews of your employees</h5>
             <?php 
-$sql_super = "SELECT firstname, surname FROM employee WHERE supervisor_id='{$_SESSION['who']}'";
+$sql_super = "SELECT firstname, surname, employee_id FROM employee WHERE supervisor_id='{$_SESSION['who']}'";
 $super = $connection->query($sql_super);
 if($super->num_rows>0) {
     while($super_value = $super->fetch_assoc()) {
-    echo "Review for: ".$super_value['firstname']." ".$super_value['surname']."<br>
-    <br> <a href='finalisereview.php?reviewid=".$rows["review_id"]."'>Year: ".$rows["review_year"]."<br>";
+    	 echo "Name: ".$super_value['firstname']." ".$super_value['surname']."<br>";
+    	 $sql_reviews = "SELECT * from review WHERE employee_id='".$super_value['employee_id']."' ORDER BY review_year DESC ";
+    	 $reviewss = $connection->query($sql_reviews)
+    	 or die ('Problem with query: ' . $connection->error);
+    	 if($reviewss->num_rows>0) {
+    	 	while($rowss = $reviewss->fetch_assoc()) {
+     		echo "<h6><a href='finalisereview.php?reviewid=".$rowss["review_id"]."'>".$rowss["review_year"]."</a></h6><br>";
+     	        }
+ 	} else { 
+ 		echo "No reviews for this budddy!<br><br>";
+ 	}
     
     }
 }

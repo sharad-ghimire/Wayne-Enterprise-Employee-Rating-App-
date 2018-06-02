@@ -1,0 +1,10 @@
+<nav>
+    <div class="nav-wrapper deep-purple darken-3">
+      <a href="#" class="brand-logo" style="margin-left:50px;">Wayne Enterprise</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="sass.html"></a></li>
+        <li><a href="finalisereview.php">Finalize Reviews</a></li>
+        <li><a href="logoff.php">LogOff</a></li>
+      </ul>
+    </div>
+  </nav>

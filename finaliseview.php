@@ -4,7 +4,7 @@ require_once("nocache.php");
 
 session_start();
 
-if(!_SESSION["who"]){
+if(!$_SESSION["who"]){
 	header("location: logoff.php");
 }
 
@@ -15,10 +15,8 @@ if ($_SESSION["mode"] != 1) {   //Check access control
 
 ?>
 <?php include("header.php"); ?>
-
 <body>
-    <p>Only staffs can access </p>
-
+  <p>Only staffs can access </p>
+     
 </body>
-
 </html>
