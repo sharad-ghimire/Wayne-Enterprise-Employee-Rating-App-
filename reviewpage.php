@@ -2,9 +2,20 @@
 include_once("nocache.php");
 require_once("conn.php");
 session_start();
-$sql = "SELECT * from employee WHERE employee_id='{$_SESSION['who']}'";
+
+if(!$_SESSION['who']) {
+  header("location: logoff.php");
+}
+
+$sql = "SELECT firstname, surname from employee WHERE employee_id='{$_SESSION['who']}'";
 $employee = $connection->query($sql)
      or die ('Problem with query: ' . $connection->error);
+if ($employee->num_rows) {
+    $user = $employee->fetch_assoc();
+    $fName = $user["firstname"];
+    $sName = $user["surname"];
+  }
+ 
  
 $sql_review = "SELECT * from review WHERE review_id='".$_GET['reviewid']."' ";
 $reviews = $connection->query($sql_review)
@@ -20,56 +31,42 @@ $reviewss = $connection->query($sql_reviews)
 ?>
 <?php include("header.php"); ?>
 
-<body>
+<?php include("navbar2.php"); ?>
 
-
-  <nav style="float:right;">
-     <a href="login.php">Login</a> |
-     <a href="logoff.php">Log Off</a> |
-     <a href="choosereview.php">Choose Review</a> |
-  </nav>
-  
-  <h3>Current Date: <?php echo "Today is " . date("Y-m-d") . "<br>"; ?> </h3>
-  
-  <p>Logged In User:
-  <?php 
-  if ($employee->num_rows) {
-    $user = $employee->fetch_assoc();
-    echo $user["firstname"]. " " .$user["surname"];
-  }
-   ?></p>
+  <div style="margin-left:50px;">
+  <p>Current Date: <?php echo "Today is " . date("Y-m-d") . "<br>"; ?> </p>
+  <p>Logged In User:<?php echo $fName." ". $sName;?></p>
+ </div>
+   <hr>
    
-   
-  <hr>
+ <hr>
   
   
-  <h3>Employee Information Section</h3>
   <?php
- if($employees->num_rows) {
-    $user= $employees->fetch_assoc();
-    echo "<ul><li>Employee ID: ".$user["employee_id"]."</li><li> Surname: ".$user["surname"]."</li>
-    <li>First Name: ".$user["firstname"]."</li><li>Employment Mode: ".$user["employment_mode"]."</li></ul>";
-  }
-  ?>
-  <hr>
   
-<h3>Rating Information Section: </h3>
-<p>Rating for each criteria:<p>
+  if($employees->num_rows) {
+      $user= $employees->fetch_assoc();
+     	echo "<div class='row'><div class='col'><div class='card-panel grey lighten-4'> 
+     	 <h3>Employee Information Section</h3><ul><li>Employee ID: ".$user["employee_id"]."</li><li> Surname: ".$user["surname"]."</li>
+    <li>First Name: ".$user["firstname"]."</li><li>Employment Mode: ".$user["employment_mode"]."</li></ul> <br> <br></div></div></div>";
+  }
+
+  ?>
 <?php
  if($reviews->num_rows) {
      $rows = $reviews->fetch_assoc();
-     echo "<ul><li>Job Knowledge: ".$rows["job_knowledge"]."</li><li> Work Quality: ".$rows["work_quality"]."</li>
-    <li>Iniative: ".$rows["initiative"]."</li><li>Communication: ".$rows["communication"]."</li><li>Dependability: ".$rows["dependability"]."</li></ul>";
+     echo "<div class='row'><div class='col'><div class='card-panel grey lighten-4'><h3>Rating Information Section: </h3><p><b>Rating for each criteria:</b><p><ul><li>Job Knowledge: ".$rows["job_knowledge"]."</li><li> Work Quality: ".$rows["work_quality"]."</li>
+    <li>Iniative: ".$rows["initiative"]."</li><li>Communication: ".$rows["communication"]."</li><li>Dependability: ".$rows["dependability"]."</li></ul></div></div></div>";
     }
  ?> 
 
-   <hr>
-  <h3>Evaluation and Action Section: </h3>
+
+
 <?php
  if($reviewss->num_rows) {
     $rows = $reviewss->fetch_assoc();
-     echo "<ul><li>Additional Comments: ".$rows["additional_comment"]."</li><li> Goals for employee: ".$rows["goals"]."</li>
-    <li>Action Required: ".$rows["action"]."</li><li>Review Complete Date: ".$rows["date_completed"]."</li></ul>";
+     echo "<div class='row'><div class='col'><div class='card-panel grey lighten-4'>  <h3>Evaluation and Action Section: </h3><ul><li>Additional Comments: ".$rows["additional_comment"]."</li><li> Goals for employee: ".$rows["goals"]."</li>
+    <li>Action Required: ".$rows["action"]."</li><li>Review Complete Date: ".$rows["date_completed"]."</li></ul></div></div></div>";
  }
 ?> 
  
