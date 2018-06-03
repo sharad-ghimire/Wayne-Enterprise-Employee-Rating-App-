@@ -9,7 +9,7 @@ if(!$_SESSION["who"]) {
 <!DOCTYPE html>
 <html lang="en">
 <?php include("header.php"); ?>
-
+<?php include("navbar.php");?>
 <body>
 <h1>Unauthorized Access</h1>
 <p>Yo have tried to access a restricted page. </p>
