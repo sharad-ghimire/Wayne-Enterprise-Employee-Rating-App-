@@ -151,26 +151,8 @@ if($reviews->num_rows>0) {
            <input type="text" value="<?php echo $row['goals']; ?>" name="goals" >
            <label for="action"><b>Action Required</b></label>
            <input type="text" value="<?php echo $row['action']; ?>" name="action" >
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           
+       
+         
            
            <br>
            <br>
@@ -182,10 +164,10 @@ if($reviews->num_rows>0) {
        	 
        	 <input type="checkbox" id="checkboxid"><label for="checkboxid">Tick to agree</label>
        	   <br> <br>
-           <button onclick="window.location.href='/page2'">Continue</button>
-           <button class="btn-large deep-purple darken-3" type="submit" name="save" style="margin-left: 50px;">Save</button>
-         
-           <button class="btn-large deep-purple darken-3" type="submit" name="submit" style="margin-left: 50px;">Submit</button>
+           <button  class="btn-large deep-purple darken-3" type="submit" name="save" style="margin-left: 50px;">Save</button>
+           
+           <button  class="btn-large deep-purple darken-3" type="submit" name="submit" style="margin-left: 50px;">Submit</button>
+           
            </form>
        </div>
     </div>
@@ -195,6 +177,35 @@ if($reviews->num_rows>0) {
 <?php
  }
 }
+?>
+<?php
+if(isset($_POST['save'])){
+	$job_knowledge = $_POST['job_knowledge'];
+	$work_quality= $_POST['work_quality'];
+	$initiative= $_POST['initiative'];
+	$communication= $_POST['communication'];
+	$dependability= $_POST['dependability'];
+	
+	$additional_comment= $_POST['additional_comment'];
+	$goals= $_POST['goals'];
+	$action= $_POST['action'];
+	
+	$sql_update = "UPDATE review SET job_knowledge = '$job_knowledge', 
+			work_quality= '$work_quality',
+			initiative= '$initiative',
+			communication= '$communication',
+			dependability= '$dependability',
+			additional_comment= '$additional_comment',
+			action= '$action',
+			goals= '$goals'";
+	
+	$retval = mysql_query( $sql_update, $connection );
+	if(! $retval ){
+ 		die('Could not update data: ' . mysql_error());
+ 	}
+		echo "Updated data successfully\n";
+}
+
 ?>
 
      
