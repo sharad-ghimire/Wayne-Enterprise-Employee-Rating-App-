@@ -49,44 +49,44 @@
 
 <body class="container">
 
-    <h2 align="center">Wayne Enterprise</h2>
+<h2 align="center">Wayne Enterprise</h2>
 
-    <div class="row">
-        <div class="col">
-            <div class="card grey lighten-3">
-                <div class="card-content">
-                    <span class="card-title">Login Details</span>
-                    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                        <p style="color:red;">
-                            <?php echo $errorMessage;?>
-                        </p>
-                        <label for="id">
-                            <b>Employee ID</b>
-                        </label>
-                        <input type="text" placeholder="hd000003" name="id" required>
-                        <label for="psw">
-                            <b>Password</b>
-                        </label>
-                        <input type="password" placeholder="overi" name="psw" required>
-                        <button class="btn-large deep-purple darken-3" type="submit" name="submit" style="display: block; margin: 0 auto;">Login</button>
-                    </form>
-                </div>
-                <div class="card-action">
+<div class="row" >
+  <div class="col">
+     <div class="card grey lighten-3">
+       <div class="card-content">
+         <span class="card-title">Login Details</span>
+          <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+  	   <p style="color:red;"><?php echo $errorMessage;?></p>
+  	   <label for="id"><b>Employee ID</b></label>
+           <input type="text" placeholder="hd000003" name="id" required>
+           <label for="psw"><b>Password</b></label>
+           <input type="password" placeholder="overi" name="psw" required>
+           <button class="btn-large deep-purple darken-3" type="submit" name="submit" style="display: block; margin: 0 auto;">Login</button>
+         </form>
+       </div>
+       <div class="card-action">
+       
+       	<p>The performance planning and review process is intended to assist supervisors to review
+ the performance of staff during a given period (at least annually) and develop agreed 
+ performance plans based on workload agreements and the strategic direction of Wayne
+  Enterprises. </p>  
+  
+<p><b>The Performance Planning and Review System</b> covers both results (what was accomplished),
+ and behaviours (how those results were achieved). The most important aspect is what will 
+ be accomplished in the future and how this will be achieved within a defined period. 
+ The process is continually working towards creating improved performance and behaviours
+that align and contribute to the mission and values of Wayne Enterprises</p>
 
-                    <p>The performance planning and review process is intended to assist supervisors to review the performance
-                        of staff during a given period (at least annually) and develop agreed performance plans based on
-                        workload agreements and the strategic direction of Wayne Enterprises. </p>
-
-                    <p>
-                        <b>The Performance Planning and Review System</b> covers both results (what was accomplished), and behaviours
-                        (how those results were achieved). The most important aspect is what will be accomplished in the
-                        future and how this will be achieved within a defined period. The process is continually working
-                        towards creating improved performance and behaviours that align and contribute to the mission and
-                        values of Wayne Enterprises</p>
-                </div>
-            </div>
-        </div>
+       		
+       	
+       
+       </div>
     </div>
-</body>
+  </div>
+</div>
+         
 
+
+</body>
 </html>

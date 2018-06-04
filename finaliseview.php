@@ -54,7 +54,7 @@ if($reviews->num_rows>0) {
      <div class="card grey lighten-3">
        <div class="card-content">
          <span class="card-title">Review Details</span>
-          <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+          <form method="post"  onsubmit="return validateForm()" action="<?php echo $_SERVER['PHP_SELF']; ?>">
   	   <p style="color:red;"><?php echo $errorMessage;?></p>
   	   
   	   
@@ -127,30 +127,31 @@ if($reviews->num_rows>0) {
            <h5>Rating Infromation Section [1-5]</h5>
            <label for="job_knowledge"><b>Job Knowledge</b></label>
 
-           <input type="text" value="<?php echo $row['job_knowledge']; ?>" name="job_knowledge" >
+           <input type="number" value="<?php echo $row['job_knowledge']; ?>" name="job_knowledge" id="job_knowledge" min="1" max="5">
            <label for="work_quality"><b>Work Quality</b></label>
-           <input type="text" value="<?php echo $row['work_quality']; ?>" name="work_quality" >
+           <input type="number" value="<?php echo $row['work_quality']; ?>" name="work_quality" id="work_quality" min="1" max="5">  
            
            
            <label for="initiative"><b>Initiative</b></label>
-           <input type="text" value="<?php echo $row['initiative']; ?>" name="initiative" >
+           <input type="number" value="<?php echo $row['initiative']; ?>" name="initiative" id="initiative" min="1" max="5">  
            
            
            <label for="communication"><b>Communication</b></label>
-           <input type="text" value="<?php echo $row['communication']; ?>" name="communication" >
+           <input type="number" value="<?php echo $row['communication']; ?>" name="communication"  id="communication" min="1" max="5"> 
            
            <label for="dependability"><b>Dependability</b></label>
-           <input type="text" value="<?php echo $row['dependability']; ?>" name="dependability" >
+           <input type="number" value="<?php echo $row['dependability']; ?>" name="dependability" id="dependability" min="1" max="5" >  
            
            <br>
            <br>
            <h5>Evaluation and Action Section</h5>
            <label for="additional_comment"><b>Additional Comments</b></label>
-           <input type="text" value="<?php echo $row['additional_comment']; ?>" name="additional_comment" >
-           <label for="goals"><b>Goals for Employee</b></label>
-           <input type="text" value="<?php echo $row['goals']; ?>" name="goals" >
+           <input type="text" value="<?php echo $row['additional_comment']; ?>" name="additional_comment" id="additional_comment">
+           <label for="goals"><b>Goals for Employee</b></label><span><?php if(isset($goalsErr)){ echo $goalsErr; }?></span>
+           <input type="text" value="<?php echo $row['goals']; ?>" name="goals" id="goals">
            <label for="action"><b>Action Required</b></label>
-           <input type="text" value="<?php echo $row['action']; ?>" name="action" >
+           <span id="actionspan"></span>
+           <input type="text" value="<?php echo $row['action']; ?>" name="action" id="action" >
        
          
            
@@ -164,9 +165,9 @@ if($reviews->num_rows>0) {
        	 
        	 <input type="checkbox" id="checkboxid"><label for="checkboxid">Tick to agree</label>
        	   <br> <br>
-           <button  class="btn-large deep-purple darken-3" type="submit" name="save" style="margin-left: 50px;">Save</button>
+           <button /* onclick="window.location.href='ratingupdate.html'"*/ class="btn-large deep-purple darken-3" type="submit" name="save" style="margin-left: 50px;">Save</button>
            
-           <button  class="btn-large deep-purple darken-3" type="submit" name="submit" style="margin-left: 50px;">Submit</button>
+           <button /* onclick="window.location.href='ratingupdate.html'" */ class="btn-large grey darken-3" type="submit" name="submit" style="margin-left: 50px;">Submit</button>
            
            </form>
        </div>
@@ -178,6 +179,47 @@ if($reviews->num_rows>0) {
  }
 }
 ?>
+
+<script type="text/javascript">
+function validateForm() {
+var x, action;
+
+    x = document.getElementById("action").value;
+
+    // If x is Not a Number or less than zeroor greater than 19 or N
+    if (isNaN(x) || x < 0  || x > 19 || x !== 'N') {
+        action= "Input not valid";
+    } else {
+        action= "Input OK";
+    }
+    document.getElementById("actionspan").innerHTML = action;
+
+
+}
+
+
+
+
+
+</script>
+
+
+
+<?php
+if(isset($_POST['submit'])){
+
+  $goals=trim($_POST["goals"]);
+  $goalsErr = "";
+  
+  if(!preg_match( "/ ^[a-zA-Z0-9!-,._ ]*$ /" , $goals)) {
+     $goalsErr = "only  contain  alphanumeric characters,  spaces,hyphens, commas,  and exclamation marks";
+  }
+
+ 
+}
+?>
+
+
 <?php
 if(isset($_POST['save'])){
 	$job_knowledge = $_POST['job_knowledge'];
@@ -197,16 +239,23 @@ if(isset($_POST['save'])){
 			dependability= '$dependability',
 			additional_comment= '$additional_comment',
 			action= '$action',
-			goals= '$goals'";
+			goals= '$goals' WHERE review_id='".$_GET['reviewid']."' ";
 	
-	$retval = mysql_query( $sql_update, $connection );
-	if(! $retval ){
- 		die('Could not update data: ' . mysql_error());
- 	}
-		echo "Updated data successfully\n";
+	//$getit = $connection->query($sql_update);
+	
+	
+	echo "Updated data successfully\n";
 }
+	
+		
+
 
 ?>
+
+
+
+
+
 
      
 </body>
